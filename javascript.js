@@ -222,7 +222,7 @@
         plannedWorkingDays += 1;
       }
 
-      // 実績稼働日数: 出勤記録がある日 + 有給日
+      // 実働日数: 出勤記録がある日 + 有給日
       const hasClock = !!rec.start && !!rec.end;
       if (rec.kind === "paid") {
         actualWorkingDays += 1;
@@ -253,7 +253,7 @@
       <div class="summaryCard">
         <div class="summaryGrid">
           <div class="summaryItem">
-            <div class="summaryLabel">実績稼働日数 / 予定稼働日数</div>
+            <div class="summaryLabel">実働日数 / 予定稼働日数</div>
             <div class="summaryValue"><span class="mono">${actualWorkingDays}</span>/<span class="mono">${plannedWorkingDays}</span></div>
           </div>
           <div class="summaryItem">
