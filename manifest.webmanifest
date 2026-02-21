@@ -1,0 +1,19 @@
+{
+  "name": "勤怠PWA",
+  "short_name": "勤怠",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7faf7",
+  "theme_color": "#0f5a2f",
+  "lang": "ja-JP",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='192'%20height='192'%20viewBox='0%200%20192%20192'%3E%3Crect%20width='192'%20height='192'%20rx='44'%20fill='%230f5a2f'/%3E%3Ccircle%20cx='96'%20cy='96'%20r='60'%20fill='none'%20stroke='%23ffffff'%20stroke-width='12'/%3E%3Cpath%20d='M96%2058%20l6%2019%2019%206-19%206-6%2019-6-19-19-6%2019-6%206-19Z'%20fill='none'%20stroke='%23ffffff'%20stroke-width='8'%20stroke-linejoin='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

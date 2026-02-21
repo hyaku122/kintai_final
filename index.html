@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja-JP">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f5a2f" />
+  <meta name="color-scheme" content="light" />
+  <title>勤怠PWA</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="application-name" content="勤怠PWA" />
+
+  <!-- iOS: “ホーム画面に追加” 用（※PNG推奨だが最小構成で省略可。無くても追加は可能） -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="勤怠PWA" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <link rel="stylesheet" href="./stylesheet.css" />
+</head>
+
+<body>
+  <header class="appHeader">
+    <div class="appTitle">
+      <span class="appTitleMain">勤怠</span>
+      <span class="appTitleSub">（端末内保存 / オフライン対応）</span>
+    </div>
+
+    <!-- 右上：歯車（circleなし） -->
+    <button class="iconButton" id="openSettingsBtn" aria-label="設定">
+      <svg class="iconGear" viewBox="0 0 24 24" aria-hidden="true">
+        <!-- simple gear -->
+        <path d="M12 8.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Zm9.1 3.2-.9-.5.1-1.1-1.8-3.1-1.1.3-.8-.8.3-1.1-3.1-1.8-1.1.1-.5-.9h-3.6l-.5.9-1.1-.1-3.1 1.8.3 1.1-.8.8-1.1-.3-1.8 3.1.1 1.1-.9.5v3.6l.9.5-.1 1.1 1.8 3.1 1.1-.3.8.8-.3 1.1 3.1 1.8 1.1-.1.5.9h3.6l.5-.9 1.1.1 3.1-1.8-.3-1.1.8-.8 1.1.3 1.8-3.1-.1-1.1.9-.5V12Z" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- 月タブ -->
+  <section class="monthTabsWrap">
+    <div class="monthTabs" id="monthTabs" role="tablist" aria-label="月の切替"></div>
+  </section>
+
+  <!-- 月次集計（要件：月タブ直下 / 日別行の上） -->
+  <section class="summaryWrap" id="summaryWrap" aria-label="月次集計"></section>
+
+  <!-- 日別行 -->
+  <main class="tableWrap">
+    <div class="tableHeader">
+      <div>日付</div>
+      <div>出勤</div>
+      <div>退勤</div>
+      <div>判定</div>
+      <div>実働</div>
+      <div>備考</div>
+    </div>
+    <div class="rows" id="rows"></div>
+  </main>
+
+  <!-- Settings Modal -->
+  <dialog class="modal" id="settingsDialog" aria-label="設定">
+    <form method="dialog" class="modalInner">
+      <div class="modalHeader">
+        <div class="modalTitle">設定</div>
+        <button class="textButton" value="cancel" aria-label="閉じる">閉じる</button>
+      </div>
+
+      <section class="modalSection">
+        <h3>会社休日（手動追加）</h3>
+        <p class="hint">
+          会社休日は「祝日と同様に扱う」日にします（出勤/退勤ボタン非表示）。<br/>
+          ※毎年繰り返しは不要要件のため、年単位で登録してください。
+        </p>
+
+        <div class="holidayAddRow">
+          <label class="inlineLabel">
+            日付
+            <input type="date" id="companyHolidayDate" />
+          </label>
+          <button type="button" class="primaryButton" id="addCompanyHolidayBtn">追加</button>
+        </div>
+
+        <div class="companyHolidayList" id="companyHolidayList" role="list"></div>
+      </section>
+
+      <section class="modalSection">
+        <h3>計算ルール（固定）</h3>
+        <ul class="rulesList">
+          <li>タイムゾーン: Asia/Tokyo 固定</li>
+          <li>時給: <span class="mono" id="wageLabel"></span> 円</li>
+          <li>休憩: 毎日 1時間固定控除（実働 = max(0, 退勤-出勤-1h)）</li>
+          <li>残業割増: 実働 8時間超 部分のみ 1.25倍</li>
+          <li>休日出勤: 全時間を 1.25倍</li>
+          <li>有給: 実働 8.0h 固定、定時給のみ加算、実績稼働日数に含める</li>
+        </ul>
+      </section>
+
+      <menu class="modalFooter">
+        <button class="dangerButton" type="button" id="resetAllBtn">全データ削除</button>
+        <button class="primaryButton" value="ok">OK</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="./javascript.js"></script>
+</body>
+</html>
